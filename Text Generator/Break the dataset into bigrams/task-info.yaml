@@ -24030,6 +24030,12 @@ files:
     The Queen in the North!
     The Queen in the North! The Queen in the North! The Queen in the North! The Queen in the North! The Queen in the North!
   learner_created: false
+- name: stages/stage_1.py
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11140#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Tue, 21 Dec 2021 23:16:39 UTC
+record: 2
