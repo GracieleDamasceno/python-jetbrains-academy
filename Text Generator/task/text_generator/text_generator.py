@@ -7,33 +7,35 @@ from nltk.tokenize import WhitespaceTokenizer
 from collections import Counter
 
 # Opening and reading the corpus file
-filename = input()
+filename = "corpus.txt"#input()
 file_content = open(filename, "r", encoding="utf-8")
 
 # Breaking the corpus into individual words
 tokenizer = WhitespaceTokenizer()
 tokens = tokenizer.tokenize(file_content.read())
 file_content.close()
-bigram = list(nltk.bigrams(tokens))
+trigram = list(nltk.trigrams(tokens))
 
-# Building a model based on bigrams of tokens
+# Building a model based on trigram of tokens
 model = {}
-for head, tail in bigram:
-    model.setdefault(head, Counter())
-    model[head].update([tail])
+for lead_head, second_head, tail in trigram:
+    new_head = "{head1} {head2}".format(head1=lead_head, head2=second_head)
+    model.setdefault(new_head, Counter())
+    model[new_head].update([tail])
 
-# Loop to print 10 sentences consisting of pseudo-sentences
-for _ in range(10):
+# Loop to print 10 sentences
+index = 0
+while index < 10:
     sentence_index = 0
     end_of_sentence = False
     full_sentence = []
 
-# Selecting an Uppercase word as first word of sentence
+# Selecting an uppercase word as first word of sentence
     random_list = list(model.keys()).copy()
     random.shuffle(random_list)
-    for w in random_list:
-        if w[0].isupper() and re.search('[.!?]', w) is None:
-            previous_word = w
+    for random_list_element in random_list:
+        if random_list_element[0].isupper() and re.search('[.!?]', random_list_element) is None:
+            previous_word = random_list_element
             break
     full_sentence.append(previous_word)
 
@@ -41,17 +43,28 @@ for _ in range(10):
     while not end_of_sentence:
         word_list = list(model[previous_word].keys())
         word_weights = tuple(model[previous_word].values())
-        word_sentence = random.choices(word_list, weights=word_weights)[0]
+        word_sentence = random.choices(word_list, weights=word_weights)
+
+# Removing sentences too small to avoid two sentences at same line
+        if len(full_sentence) <= 5 and re.search('[.!?]', " ".join(full_sentence)):
+            full_sentence = []
+            sentence_index = 0
+            end_of_sentence = True
+            break
 
 # Ending sentence at nearest punctuation mark when sentence is bigger tha 5 words
-        if sentence_index >= 3 and re.search('[.!?]', word_sentence) is not None:
-            full_sentence.append(word_sentence)
-            previous_word = word_sentence
+        if sentence_index >= 4 and re.search('[.!?]', word_sentence[0]) is not None:
+            full_sentence.append(word_sentence[0])
+            previous_word = word_sentence[0]
             end_of_sentence = True
             break
         else:
-            full_sentence.append(word_sentence)
-            previous_word = word_sentence
+            full_sentence.append(word_sentence[0])
+            string_full_sentence = " ".join(full_sentence).split()
+            previous_word = " ".join(string_full_sentence[-2:])
             sentence_index += 1
 
-    print(" ".join(full_sentence))
+# Printing complete sentence
+    if full_sentence:
+        print(" ".join(full_sentence))
+        index += 1

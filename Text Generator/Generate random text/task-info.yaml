@@ -23974,5 +23974,8 @@ files:
     The Queen in the North! The Queen in the North! The Queen in the North! The Queen in the North! The Queen in the North!
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/11142#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 12 Jan 2022 00:32:04 UTC
+record: 4

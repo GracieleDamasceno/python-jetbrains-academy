@@ -7,7 +7,7 @@ from nltk.tokenize import WhitespaceTokenizer
 from collections import Counter
 
 # Opening and reading the corpus file
-filename = input()
+filename = "corpus.txt"#input()
 file_content = open(filename, "r", encoding="utf-8")
 
 # Breaking the corpus into individual words
